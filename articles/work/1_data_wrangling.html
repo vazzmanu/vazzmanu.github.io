@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Manuel</title>
+		<meta charset="utf-8" />
+		<link rel="shortcut icon" href="../../images/favicon.ico" type="../../image/png">
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="../../assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+						<article id="elements">
+								<h2 class="major">Data Wrangling</h2>
+
+								<section>
+									<h3 class="major">29/03/21</h3>
+									<p></p>
+									<p>After reading this article you will be able to:</p>
+									<ul>
+										<li>Handle missing values</li>
+										<li>Correct data format</li>
+										<li>Standardize and Normalize Data</li>
+									</ul>
+									<h2>What is Data Wrangling?</h2>
+									<p>Is the process of converting data from the inital format to a another that may be better for analysis.</p>
+									<h3>Let´s code</h3>
+									<h4>Import data</h4>
+									<p>You can find the 'Automobile Data Set' from the following link: <a href="https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data">https://archive.ics.uci.edu/ml/machine-learning-databases/autos/imports-85.data</a>. We will be using it through this article.</p>
+									<h4>Import pandas</h4>
+									<pre><code>import pandas as pd
+import matplotlib.pylab as plt
+</code></pre>
+									<h4>Reading the data set and adding the related headers.</h4>
+									<pre><code>filename = "../../import-85.data"
+</code></pre>
+									<p>Python list <strong>headers</strong> containing name of headers</p>
+									<pre><code>headers = ["symboling","normalized-losses","make","fuel-type","aspiration", "num-of-doors","body-style",
+         							"drive-wheels","engine-location","wheel-base", "length","width","height","curb-weight","engine-type",
+        							 "num-of-cylinders", "engine-size","fuel-system","bore","stroke","compression-ratio","horsepower",
+        							 "peak-rpm","city-mpg","highway-mpg","price"]
+</code></pre>
+									<p>Use the pandas method <strong>read_csv()</strong> to load the data into the dataframe. Set the parameter "names" equal to the Python list "headers".</p>
+									<pre><code>df = pd.read_csv(filename, names = headers)
+</code></pre>
+									<p>You can use the method <b>head()</b> to display the first five rows of the data frame.</p>
+									<pre><code># To see how the data set looks like
+df.head()
+</code></pre>
+									<center><img src="../../images/table1.png"></center>
+									<p>As we can see several question marks appeared in the dataframe; those are missing values which may affect further analysis.</p>
+									<p>So how do we identify all those missing values and deal with them? <strong>How to work with missing data?</strong></p>
+									<h3>Identify and handle missing values</h3>
+									<h4>Convert "?" to NaN</h4>
+									<p>In the car dataset, missing data comes with the question mark "?". We replace "?" with NaN (Not a Number), which is Python defualt missing value marker, for reasons of computational speed and convenience.</p>
+									<pre><code># replace "?" to NaN
+df.replace("?", np.nan, inplace=True)
+df.head()
+</code></pre>
+									<center><img src="../../images/table2.png"></center>
+									<h4>Identify missing values</h4>
+									<p>The missing values are converted to default. We use the following functions to identify these missing values:</p>
+									<ol>
+										<li><b>.isnull()</b></li>
+										<li><b>.notnull()</b></li>
+									</ol>
+									<p>The output is a boolean value indicating whether the value that is passed into the argument is in fact missing data.</p>
+									<pre><code>missing_data = df.isnull()
+missing_data.head(5)
+</code></pre>
+									<center><img src="../../images/table3.png"></center>
+									<p>"True" stands for missing value, while "False" stands for not missing value.</p>
+									<h4>Count missing values in each column</h4>
+									<p>Using a for loop in Python, we can quickly figure out the number of missing values in each column. In the body of the loop the method <b>.value_counts()</b> counts the number of "True" values.</p>
+									<pre><code>for column in missing_data.columns.values.tolist():
+print(column)
+print(missing_data[column].value_counts())
+print("")
+</code></pre>
+									<center><img src="../../images/ex1.png"></center>
+									<p>Based on the summary above, each column has 205 rows of data, seven columns missing data:</p>
+									<ol>
+										<li>"normalized-losses": 41 missing data</li>
+										<li>"num-of-doors": 2 missing data</li>
+										<li>"bore": 4 missing data</li>
+										<li>"stroke" : 4 missing data</li>
+										<li>"horsepower": 2 missing data</li>
+										<li>"peak-rpm": 2 missing data</li>
+										<li>"price": 4 missing data</li>
+									</ol>
+
+									<h3>Deal with missing data</h3>
+									<h4>How to deal with missing data?</h4>
+									<ol>
+										<li>drop data</li>
+										<ul>
+											<li>drop the whole row</li>
+											<li>drop the whole column</li>
+										</ul>
+										<li>replace data</li>
+										<ul>
+											<li>replace it by mean</li>
+											<li>replace it by frequency</li>
+											<li>replace it based on other functions</li>
+										</ul>
+									</ol>
+									<p>Whole columns should be dropped only if most entries in the column are empty. In our dataset, none of the columns are empty enough to drop entirely. We have some freedom in choosing which method to replace data; however, some methods may seem more reasonable than others. We will apply each method to many different columns:</p>
+									<h4>Replace by mean:</h4>
+									<ul>
+										<li>"normalized-losses": 41 missing data, replace them with mean</li>
+										<li>"stroke": 4 missing data, replace them with mean</li>
+										<li>"horsepower": 2 missing data, replace them with mean</li>
+										<li>"bore": 4 missing data, replace them with mean</li>
+										<li>"peak-rpm": 2 missing data, replace them with mean</li>
+									</ul>
+									<h4>Replace by frequency:</h4>
+									<ul>
+										<li>"num-of-doors": 2 missing data, replace them with "four"</li>
+										<ul>
+											<li>Reason: 84% sedans is four doors. Since four doors is most frequent, it is most likely to occur</li>
+										</ul>
+									</ul>
+									<h4>Drop the whole row:</h4>
+									<ul>
+										<li>"price": 4 missing data, simply delete the whole row</li>
+										<ul>
+											<li>Reason: price is what we want to predict. Any data entry without price data cannot be used for prediction; therefore any row now without price data is not useful to us</li>
+										</ul>
+									</ul>
+									<h4>Calculate the average of the column</h4>
+									<pre><code>avg_norm_loss = df["normalized-losses"].astype("float").mean(axis=0)
+print("Average of normalized-losses:", avg_norm_loss)
+# Average of normalized-losses: 122.0
+</code></pre>
+									<h4>Replace "NaN" by mean value in "normalized-losses" column</h4>
+									<pre><code>avg_bore = df['bore'].astype('float').mean(axis=0)
+print("Average of bore:", avg_bore)
+# Average of bore: 3.32975
+</code></pre>
+									<h4>Replace NaN by mean value</h4>
+									<pre><code>df["bore"].replace(np.nan, avg_bore, inplace=True)
+</code></pre>
+									<p>After changing all the other columns that we decided previously to replace the missing values with the mean value. Let's replace the other columns.</p>
+									<h4>Replace NaN by frequency</h4>
+									<p>We can use the method <b>.idxmax()</b> to calculate for us the most common type:</p>
+									<pre><code>df["num-of-doors"].value_counts().idxmax()
+# 'four'
+</code></pre>
+									<p>The replacement procedure is very similar to what we have seen previously</p>
+									<pre><code>df["num-of-doors"].replace(np.nan, "four", inplace=True)
+</code></pre>
+									<h4>Drop all the rows that do not have price data:</h4>
+									<pre><code>df.dropna(subset=["price"], axis=0, inplace=True)
+df.head()
+</code></pre>
+									<center><img src="../../images/table4.png"></center>
+									<p><b>Good!</b> now we have a dataset with no missing values.</p>
+									
+
+									<hr>
+									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
+									This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
+									This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
+									<hr />
+									<h4>Blockquote</h4>
+									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+									<h4>Preformatted</h4>
+									<pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+    print 'Iteration ' + i;
+    deck.shuffle();
+    i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+								</section>
+							</article>
+					</div>	
+			</div>
+
+		<!-- BG -->
+			<div id="bg"></div>
+
+		<!-- Scripts -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+
+	</body>
+</html>
