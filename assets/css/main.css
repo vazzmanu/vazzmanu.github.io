@@ -21,6 +21,11 @@ section, summary, time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;}
 
+center {
+	overflow: hidden;
+	overflow-x: scroll;
+}
+
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
 	display: block;}
@@ -1586,6 +1591,7 @@ input, select, textarea {
 			}
 		}
 
+
 		@media (max-width: 990px) {
 			.elements__work {
 				width: 800px;
@@ -1604,7 +1610,10 @@ input, select, textarea {
 			}
 		}
 
-
+		.elements__article {
+			max-width: 95%;
+			width: 1200px;
+		}
 		
 
 			#main article.active {
