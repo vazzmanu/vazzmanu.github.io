@@ -200,6 +200,12 @@ input, select, textarea {
 			}
 		}
 
+		@media  (max-width: 1000px) {
+			.elements__work h1.major, h2.major, h3.major, h4.major, h5.major, h6.major {
+				width: 700px;
+			}
+		}
+
 
 	h1 {
 		font-size: 2.25rem;
@@ -1557,6 +1563,12 @@ input, select, textarea {
 		@media (max-width: 500px) {
 			#elements {
 				width: 320px;
+			}
+		}
+
+		@media  (max-width: 1000px) {
+			.elements__work {
+				width: 700px;
 			}
 		}
 		
