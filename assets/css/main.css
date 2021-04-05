@@ -200,11 +200,31 @@ input, select, textarea {
 			}
 		}
 
-		@media  (max-width: 1000px) {
-			.elements__work h1.major, h2.major, h3.major, h4.major, h5.major, h6.major {
-				width: 700px;
+		@media (max-width: 990px) {
+			h1.major__work, h2.major__work, h3.major__work, h4.major__work, h5.major__work, h6.major__work {
+				width: 800px;
 			}
 		}
+
+		@media (max-width: 840px) {
+			h1.major__work, h2.major__work, h3.major__work, h4.major__work, h5.major__work, h6.major__work {
+				width: 650px;
+			}
+		}
+
+		@media (max-width: 670px) {
+			h1.major__work, h2.major__work, h3.major__work, h4.major__work, h5.major__work, h6.major__work {
+				width: 500px;
+			}
+		}
+		
+		@media (max-width: 500px) {
+			h1.major__work, h2.major__work, h3.major__work, h4.major__work, h5.major__work, h6.major__work {
+				width: 320px;
+			}
+		}
+
+
 
 
 	h1 {
@@ -1566,11 +1586,25 @@ input, select, textarea {
 			}
 		}
 
-		@media  (max-width: 1000px) {
+		@media (max-width: 990px) {
 			.elements__work {
-				width: 700px;
+				width: 800px;
 			}
 		}
+
+		@media (max-width: 840px) {
+			.elements__work {
+				width: 650px;
+			}
+		}
+
+		@media (max-width: 670px) {
+			.elements__work {
+				width: 500px;
+			}
+		}
+
+
 		
 
 			#main article.active {
