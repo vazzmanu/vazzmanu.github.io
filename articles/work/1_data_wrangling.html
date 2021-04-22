@@ -17,13 +17,12 @@
 								<h2 class="major">Data Wrangling</h2>
 
 								<section>
-									<h3 class="major">29/03/21</h3>
+									<h3 class="major">22/04/21</h3>
 									<p></p>
 									<p>After reading this article you will be able to:</p>
 									<ul>
 										<li>Handle missing values</li>
 										<li>Correct data format</li>
-										<li>Standardize and Normalize Data</li>
 									</ul>
 									<h2>What is Data Wrangling?</h2>
 									<p>Is the process of converting data from the inital format to a another that may be better for analysis.</p>
@@ -50,7 +49,7 @@ import matplotlib.pylab as plt
 									<pre><code># To see how the data set looks like
 df.head()
 </code></pre>
-									<center><img src="../../images/table1.png"></center>
+									<center><img src="../../images/1_data_wrangling/table1.png"></center>
 									<p>As we can see several question marks appeared in the dataframe; those are missing values which may affect further analysis.</p>
 									<p>So how do we identify all those missing values and deal with them? <strong>How to work with missing data?</strong></p>
 									<h3>Identify and handle missing values</h3>
@@ -60,7 +59,7 @@ df.head()
 df.replace("?", np.nan, inplace=True)
 df.head()
 </code></pre>
-									<center><img src="../../images/table2.png"></center>
+									<center><img src="../../images/1_data_wrangling/table2.png"></center>
 									<h4>Identify missing values</h4>
 									<p>The missing values are converted to default. We use the following functions to identify these missing values:</p>
 									<ol>
@@ -71,7 +70,7 @@ df.head()
 									<pre><code>missing_data = df.isnull()
 missing_data.head(5)
 </code></pre>
-									<center><img src="../../images/table3.png"></center>
+									<center><img src="../../images/1_data_wrangling/table3.png"></center>
 									<p>"True" stands for missing value, while "False" stands for not missing value.</p>
 									<h4>Count missing values in each column</h4>
 									<p>Using a for loop in Python, we can quickly figure out the number of missing values in each column. In the body of the loop the method <b>.value_counts()</b> counts the number of "True" values.</p>
@@ -80,7 +79,7 @@ print(column)
 print(missing_data[column].value_counts())
 print("")
 </code></pre>
-									<center><img src="../../images/ex1.png"></center>
+									<center><img src="../../images/1_data_wrangling/ex1.png"></center>
 									<p>Based on the summary above, each column has 205 rows of data, seven columns missing data:</p>
 									<ol>
 										<li>"normalized-losses": 41 missing data</li>
@@ -156,27 +155,46 @@ print("Average of bore:", avg_bore)
 									<pre><code>df.dropna(subset=["price"], axis=0, inplace=True)
 df.head()
 </code></pre>
-									<center><img src="../../images/table4.png"></center>
+									<center><img src="../../images/1_data_wrangling/table4.png"></center>
 									<p><b>Good!</b> now we have a dataset with no missing values.</p>
 									
+									<h3>Correct data format</h3>
+									<p><b>We are almost there!</b> tha last stpe in data cleaning is checking and making sure that all data is in the correct format (int, float, text or other).</p>
+									<p>In pandas we use:</p>
+									<ul>
+										<li><b>.dtype()</b> to check the data type</li>
+										<li><b>.astype()</b> to change the data type</li>
+									</ul>
 
+									<h4>Lets list the data types for each column:</h4>
+									<pre><code>df.dtypes
+</code></pre>
+									<center><img src="../../images/1_data_wrangling/ex2.png"></center>
+									<p>As we can see above, some columns are not te correct data type. Numerical variables should have type 'float' or 'int', and variables with strings such as categories should have type 'object'. For example, 'bore' and 'stroke' variables are numerical values that describe the engines, so we should expect them to be of the type 'float' or 'int'; however, they are shown as type 'object', so we hvae to convert  data ypes into a proper format for each column using the <b>astype()</b> method.</p>
+
+									<h4>Convert data types to proper format</h4>
+									<pre><code>df[["bore", "stroke"]] = df[["bore", "stroke"]].astype("float")
+df[["normalized-losses"]] = df[["normalized-losses"]].astype("int")
+df[["price"]] = df[["price"]].astype("float")
+df[["peak-rpm"]] = df[["peak-rpm"]].astype("float")
+</code></pre>	
+									<h4>Now see the difference</h4>					
+									<pre><code>df.dtypes
+</code></pre>	
+									<center><img src="../../images/1_data_wrangling/ex3.png"></center>
+									<p>Now, we finally obtained the cleaned dataset with no missing values and all data in its proper format.</p>
 									<hr>
-									<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
-									This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
-									This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
-									<hr />
-									<h4>Blockquote</h4>
-									<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
-									<h4>Preformatted</h4>
-									<pre><code>i = 0;
 
-while (!deck.isInOrder()) {
-    print 'Iteration ' + i;
-    deck.shuffle();
-    i++;
-}
-
-print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+									<h3>Want to check the code?</h3>
+									<p><a href="https://github.com/vazzmanu">https://github.com/vazzmanu</a></p>
+									<p>If you enjoyed this topic please share it with someone that it can be useful too!</p>
+									<ul class="icons" align="center">
+									<li><a href="https://www.linkedin.com/in/vazzmanu/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+									<li><a href="https://medium.com/@vazzmanu" class="icon brands fa-medium"><span class="label">Medium</span></a></li>
+									<li><a href="https://github.com/vazzmanu" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="https://www.kaggle.com/vazzmanu" class="icon brands fa-kaggle"><span class="label">Kaggle</span></a></li>
+									<li><a href="https://www.instagram.com/vazzmanu/" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+								</ul>
 								</section>
 							</article>
 					</div>	
