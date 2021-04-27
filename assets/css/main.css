@@ -34,6 +34,13 @@ body {
 	line-height: 1;
 }
 
+
+@media (max-width: 680px) {
+	iframe {
+		width: 100%;
+	}
+}
+
 ol, ul {
 	list-style: none;
 }
